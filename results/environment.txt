@@ -1,0 +1,15 @@
+Actual execution date: 2026-11-17 (UTC+08:00)
+OS: Ubuntu 24.04.3 LTS inside Windows WSL2
+Kernel: Linux 6.6.87.2-microsoft-standard-WSL2 x86_64
+CPU: Intel Core i9-13900HX; 32 logical CPUs visible in WSL; JVM ActiveProcessorCount limited to 4
+Memory: 7840 MiB total RAM, 2048 MiB swap
+Java: Azul Zulu OpenJDK 11.0.29, zulu11.84.17
+Hadoop: 3.3.6; real HDFS NameNode/DataNode and YARN ResourceManager/NodeManager
+MapReduce: YARN mode, one active NodeManager; no local runner for final results
+HBase: 2.5.11; standalone with embedded ZooKeeper/RegionServer, local filesystem
+Spark: 3.5.7; real standalone Master/Worker with HDFS input/output
+Spark worker allocation: 2 cores, 1024 MiB
+Maven: 3.9.9
+Python: 3.12.3 (Ubuntu distribution)
+Primary evidence: environment_check.log
+Configuration and reproduction: ../environment/README.md

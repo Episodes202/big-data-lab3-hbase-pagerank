@@ -1,0 +1,2 @@
+PASS mapreduce_result.txt: nodes=8, max_abs_error=0, sum=1.0000000002
+PASS spark_result.txt: nodes=8, max_abs_error=0, sum=1.0000000002

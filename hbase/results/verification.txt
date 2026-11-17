@@ -1,0 +1,16 @@
+HBase integration verification
+Date: 2026-11-17 Asia/Shanghai
+Platform: WSL Ubuntu, Java 11.0.29, Apache HBase 2.5.11
+Mode: standalone server, local filesystem, embedded ZooKeeper port 12181
+Java build: BUILD SUCCESS
+Java demo exit code: 0
+Java assertions: 12 passed
+Java terminal marker: ALL HBASE CHECKS PASSED
+Shell batch exit code: 0
+Shell log ERROR/Exception/SyntaxError matches: 0
+Student rows: 3
+Course rows: 3
+SC rows: 6
+Lab3Scratch rows after truncate: 0
+Score:Math = {Lisi={Score:Math=98}, Mary=null, Zhangsan={Score:Math=86}}
+Evidence: build.log, java-demo.log, shell-demo.log

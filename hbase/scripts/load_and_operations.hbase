@@ -1,0 +1,94 @@
+# HBase 2.5 shell batch script. Only the four assignment tables are reset.
+%w[Student Course SC Lab3Scratch].each do |name|
+  if exists(name)
+    disable(name) unless is_disabled(name)
+    drop(name)
+  end
+end
+create 'Student', 'Info', 'Score'
+create 'Course', 'Info'
+create 'SC', 'Info'
+create 'Lab3Scratch', 'Info'
+
+# Mary is 2015002 in the working dataset; see ../data/Student_original.tsv.
+put 'Student', 'Zhangsan', 'Info:S_No', '2015001'
+put 'Student', 'Zhangsan', 'Info:S_Name', 'Zhangsan'
+put 'Student', 'Zhangsan', 'Info:S_Sex', 'male'
+put 'Student', 'Zhangsan', 'Info:S_Age', '23'
+put 'Student', 'Mary', 'Info:S_No', '2015002'
+put 'Student', 'Mary', 'Info:S_Name', 'Mary'
+put 'Student', 'Mary', 'Info:S_Sex', 'female'
+put 'Student', 'Mary', 'Info:S_Age', '22'
+put 'Student', 'Lisi', 'Info:S_No', '2015003'
+put 'Student', 'Lisi', 'Info:S_Name', 'Lisi'
+put 'Student', 'Lisi', 'Info:S_Sex', 'male'
+put 'Student', 'Lisi', 'Info:S_Age', '24'
+put 'Student', 'Zhangsan', 'Score:Math', '86'
+put 'Student', 'Zhangsan', 'Score:English', '69'
+put 'Student', 'Mary', 'Score:Computer Science', '77'
+put 'Student', 'Mary', 'Score:English', '99'
+put 'Student', 'Lisi', 'Score:Math', '98'
+put 'Student', 'Lisi', 'Score:Computer Science', '95'
+
+put 'Course', '123001', 'Info:C_No', '123001'
+put 'Course', '123001', 'Info:C_Name', 'Math'
+put 'Course', '123001', 'Info:C_Credit', '2.0'
+put 'Course', '123002', 'Info:C_No', '123002'
+put 'Course', '123002', 'Info:C_Name', 'Computer Science'
+put 'Course', '123002', 'Info:C_Credit', '5.0'
+put 'Course', '123003', 'Info:C_No', '123003'
+put 'Course', '123003', 'Info:C_Name', 'English'
+put 'Course', '123003', 'Info:C_Credit', '3.0'
+
+put 'SC', '2015001_123001', 'Info:SC_Sno', '2015001'
+put 'SC', '2015001_123001', 'Info:SC_Cno', '123001'
+put 'SC', '2015001_123001', 'Info:SC_Score', '86'
+put 'SC', '2015001_123003', 'Info:SC_Sno', '2015001'
+put 'SC', '2015001_123003', 'Info:SC_Cno', '123003'
+put 'SC', '2015001_123003', 'Info:SC_Score', '69'
+put 'SC', '2015002_123002', 'Info:SC_Sno', '2015002'
+put 'SC', '2015002_123002', 'Info:SC_Cno', '123002'
+put 'SC', '2015002_123002', 'Info:SC_Score', '77'
+put 'SC', '2015002_123003', 'Info:SC_Sno', '2015002'
+put 'SC', '2015002_123003', 'Info:SC_Cno', '123003'
+put 'SC', '2015002_123003', 'Info:SC_Score', '99'
+put 'SC', '2015003_123001', 'Info:SC_Sno', '2015003'
+put 'SC', '2015003_123001', 'Info:SC_Cno', '123001'
+put 'SC', '2015003_123001', 'Info:SC_Score', '98'
+put 'SC', '2015003_123002', 'Info:SC_Sno', '2015003'
+put 'SC', '2015003_123002', 'Info:SC_Cno', '123002'
+put 'SC', '2015003_123002', 'Info:SC_Score', '95'
+
+# List names/descriptors, scan all records and count logical rows.
+list
+describe 'Student'
+scan 'Student'
+scan 'Course'
+scan 'SC'
+count 'Student'
+count 'Course'
+count 'SC'
+scan 'Student', {COLUMNS => 'Score'}
+scan 'Student', {COLUMNS => 'Score:Math'}
+get 'Student', 'Mary', {COLUMN => 'Score:Math'}
+
+# Modify and restore. Add/drop a family; add/delete a qualifier.
+put 'Student', 'Zhangsan', 'Score:Math', '90'
+get 'Student', 'Zhangsan', 'Score:Math'
+put 'Student', 'Zhangsan', 'Score:Math', '86'
+alter 'Student', {NAME => 'Temp'}
+put 'Student', 'Zhangsan', 'Temp:note', 'demo'
+get 'Student', 'Zhangsan', 'Temp:note'
+deleteall 'Student', 'Zhangsan', 'Temp:note'
+get 'Student', 'Zhangsan', 'Temp:note'
+alter 'Student', {NAME => 'Temp', METHOD => 'delete'}
+describe 'Student'
+
+# Delete a temporary row and clear a scratch table; retain the sample data.
+put 'Student', 'Temporary', 'Info:S_Name', 'Temporary'
+deleteall 'Student', 'Temporary'
+count 'Student'
+put 'Lab3Scratch', 'r1', 'Info:value', '1'
+truncate 'Lab3Scratch'
+count 'Lab3Scratch'
+exit

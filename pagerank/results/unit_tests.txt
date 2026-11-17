@@ -1,0 +1,10 @@
+test_all_sinks_are_uniform (test_reference.PageRankTests.test_all_sinks_are_uniform) ... ok
+test_cycle_is_uniform (test_reference.PageRankTests.test_cycle_is_uniform) ... ok
+test_empty_graph_rejected (test_reference.PageRankTests.test_empty_graph_rejected) ... ok
+test_sink_keeps_mass_and_zero_indegree (test_reference.PageRankTests.test_sink_keeps_mass_and_zero_indegree) ... ok
+test_target_only_and_duplicate_edges (test_reference.PageRankTests.test_target_only_and_duplicate_edges) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK
